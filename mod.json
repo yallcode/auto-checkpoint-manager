@@ -1,1 +1,56 @@
 
+{
+	"geode": "4.0.0",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "YallCode.auto_checkpoint_manager",
+	"name": "Auto-Checkpoint Interval Manager",
+	"version": "v1.0.0",
+	"developer": "YallCode",
+	"description": "Automatically places practice mode checkpoints at player-defined percentage or time intervals.",
+	"settings": {
+		"enabled": {
+			"name": "Enable Auto-Checkpoint",
+			"description": "Toggle automatic checkpoint placement on or off.",
+			"type": "bool",
+			"default": true
+		},
+		"interval-type": {
+			"name": "Interval Mode",
+			"description": "Choose whether checkpoints trigger based on Level Percentage or Time Elapsed.",
+			"type": "title"
+		},
+		"use-time": {
+			"name": "Use Time-based Intervals",
+			"description": "If enabled, checkpoints trigger based on seconds instead of percentage progress.",
+			"type": "bool",
+			"default": false
+		},
+		"percentage-interval": {
+			"name": "Percentage Interval (%)",
+			"description": "Place a checkpoint every X% progress.",
+			"type": "int",
+			"default": 10,
+			"min": 1,
+			"max": 100,
+			"control": {
+				"slider": true
+			}
+		},
+		"time-interval": {
+			"name": "Time Interval (Seconds)",
+			"description": "Place a checkpoint every X seconds.",
+			"type": "float",
+			"default": 5.0,
+			"min": 0.5,
+			"max": 60.0,
+			"control": {
+				"slider": true
+			}
+		}
+	}
+}
