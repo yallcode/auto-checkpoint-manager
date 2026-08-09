@@ -4,32 +4,33 @@
 using namespace geode::prelude;
 
 class $modify(AutoCheckpointPlayLayer, PlayLayer) {
-    // Member variable to track the last percentage threshold where a checkpoint was placed
-    int m_lastIntervalPercent = -1;
+    // Custom fields must go inside this struct in Geode!
+    struct Fields {
+        int m_lastIntervalPercent = -1;
+    };
 
     bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects)) {
             return false;
         }
 
-        // Reset tracking on level start
         m_fields->m_lastIntervalPercent = -1;
         return true;
     }
 
     void resetLevel() {
         PlayLayer::resetLevel();
-
-        // Reset tracking when the player dies or resets the level
         m_fields->m_lastIntervalPercent = -1;
     }
 
     void postUpdate(float dt) {
         PlayLayer::postUpdate(dt);
 
-        // Verify that the mod setting is enabled and we are in practice mode
+        // We must cast 'this' to PlayLayer* to access its methods and variables
+        auto self = static_cast<PlayLayer*>(this);
+
         bool enabled = Mod::get()->getSettingValue<bool>("enabled");
-        if (!enabled || !this->m_isPracticeMode) {
+        if (!enabled || !self->m_isPracticeMode) {
             return;
         }
 
@@ -38,16 +39,12 @@ class $modify(AutoCheckpointPlayLayer, PlayLayer) {
             return;
         }
 
-        // Calculate current completion percentage
-        int currentPercent = this->getCurrentPercentInt();
-
-        // Determine current interval bucket (e.g., 23% with interval 10 -> step 20)
+        int currentPercent = self->getCurrentPercentInt();
         int currentIntervalStep = (currentPercent / interval) * interval;
 
-        // Ensure we don't trigger at 0% and only trigger once when entering a new step
         if (currentIntervalStep > 0 && currentIntervalStep > m_fields->m_lastIntervalPercent) {
             m_fields->m_lastIntervalPercent = currentIntervalStep;
-            this->markCheckpoint();
+            self->markCheckpoint();
         }
     }
 };

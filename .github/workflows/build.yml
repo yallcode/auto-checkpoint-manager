@@ -15,9 +15,12 @@ jobs:
         config:
           - name: Windows
             os: windows-latest
-          - name: Android
+          - name: Android32
             os: ubuntu-latest
-            target: Android
+            target: Android32
+          - name: Android64
+            os: ubuntu-latest
+            target: Android64
 
     name: Build (${{ matrix.config.name }})
     runs-on: ${{ matrix.config.os }}
