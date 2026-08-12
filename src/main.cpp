@@ -4,7 +4,6 @@
 using namespace geode::prelude;
 
 class $modify(AutoCheckpointPlayLayer, PlayLayer) {
-    // This MUST be the only place custom variables are declared!
     struct Fields {
         int m_lastIntervalPercent = -1;
     };
@@ -38,7 +37,8 @@ class $modify(AutoCheckpointPlayLayer, PlayLayer) {
             return;
         }
 
-        int currentPercent = self->getCurrentPercentInt();
+        // Fixed: using getCurrentPercent() instead of getCurrentPercentInt()
+        int currentPercent = static_cast<int>(self->getCurrentPercent());
         int currentIntervalStep = (currentPercent / interval) * interval;
 
         if (currentIntervalStep > 0 && currentIntervalStep > m_fields->m_lastIntervalPercent) {
