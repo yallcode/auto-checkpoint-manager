@@ -4,7 +4,7 @@
 using namespace geode::prelude;
 
 class $modify(AutoCheckpointPlayLayer, PlayLayer) {
-    // Custom fields must go inside this struct in Geode!
+    // This MUST be the only place custom variables are declared!
     struct Fields {
         int m_lastIntervalPercent = -1;
     };
@@ -26,7 +26,6 @@ class $modify(AutoCheckpointPlayLayer, PlayLayer) {
     void postUpdate(float dt) {
         PlayLayer::postUpdate(dt);
 
-        // We must cast 'this' to PlayLayer* to access its methods and variables
         auto self = static_cast<PlayLayer*>(this);
 
         bool enabled = Mod::get()->getSettingValue<bool>("enabled");

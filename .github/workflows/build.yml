@@ -15,7 +15,7 @@ jobs:
         config:
           - name: Windows
             os: windows-latest
-            target: win
+            target: Win64
           - name: Android 32-bit
             os: ubuntu-latest
             target: Android32
